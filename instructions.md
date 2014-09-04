@@ -54,3 +54,5 @@ A wiki is an application that allows users to create and modify content collabor
   - To get Sinatra to form responses in JSON format rather than HTML, check out this [tutorial](http://nathanhoad.net/how-to-return-json-from-sinatra)
 - **Implement responsive web design to your application**
   - [What the heck is responsive web design?](http://johnpolacek.github.io/scrolldeck.js/decks/responsive/)
+
+  [how to write in markdown](https://help.github.com/articles/markdown-basics)
