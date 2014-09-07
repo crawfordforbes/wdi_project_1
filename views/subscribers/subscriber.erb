@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" type="text/css" href="/styles.css">
+	<meta charset="UTF-8">
+	<title>Air Force Deuce</title>
+</head>
+<body>
+	<header>
+		<h1><a href="/">Air Force Deuce Whiteboard</a></h1>
+	</header>
+	<section>
+		<form action="/search" method="GET">
+			<input type="text" name="search" placeholder="Search here!">
+			<button>Search</button>
+		</form>
+		<ul>
+			<li><a href="/documents/new">Create a new page</a></li>
+			<li><a href="/documents/<%= doc.first["id"] %>">Go to the first page</a></li>
+			<li><a href="/documents/<%= doc.last["id"] %>">See the most recent page</a></li>
+			<li><a href="/authors">Authors</a></li>
+			<li><a href="/subscribers">Subscribers</a></li>
+		</ul>
+	</section>
+	<div class="main">
+		<h1><%= thisSub["name"] %>'s subscriptions</h1>
+		<div class="line"></div>
+		<% if thisSub.docs.length < 1 %>
+			<p><%= thisSub["name"] %> hasn't subscribed to anything yet.</p>
+			<% else %>
+			<ul>
+				<% thisSub.docs.each do |document| %>
+				<li><a href="/documents/<%= document["id"] %>"><%= document["title"] %></a></li>
+				<% end %>	
+			</ul>
+		<% end %>
+		<div class="line"></div>
+		<h1>Edit <%= thisSub["name"] %>'s info</h1>
+		<form action="/authors/<%= thisSub["id"] %>" method="POST">
+			<input type="hidden" name="_method" value="PUT" />
+			<input type="text" name="name" placeholder="<%= thisSub["name"] %>">
+			<input ="text" name="email" placeholder="<%= thisSub["email"] %>">
+			<input type="text" name="phone" placeholder="<%= thisSub["phone"] %>">
+			<button>Submit</button>
+		</form>
+	</div>
+
+				
+	
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" type="text/css" href="/styles.css">
+	<meta charset="UTF-8">
+	<title>Air Force Deuce</title>
+</head>
+<body>
+	<header>
+		<h1><a href="/">Air Force Deuce Whiteboard</a></h1>
+	</header>
+	<section>
+		<form action="/search" method="GET">
+			<input type="text" name="search" placeholder="Search here!">
+			<button>Search</button>
+		</form>
+		<ul>
+			<li><a href="/documents/new">Create a new page</a></li>
+			<li><a href="/documents/<%= doc.first["id"] %>">Go to the first page</a></li>
+			<li><a href="/documents/<%= doc.last["id"] %>">See the most recent page</a></li>
+			<li><a href="/authors">Authors</a></li>
+			<li><a href="/subscribers">Subscribers</a></li>
+		</ul>
+	</section>
+	<div class="main">
+		<% Doc.order("story_date ASC").last(3).each do |thisDoc| %>
+			<div style="border: darkgrey 2px solid; border-radius: 5px; margin: 0 30px 15px 0; padding: 15px;">
+				<h1><a href="/documents/<%= thisDoc["id"] %>">
+					<%= thisDoc["title"] %></a></h1>
+				<div class="line"></div>
+				<p>created by 
+				<% auth = Author.find_by(id: thisDoc["author_id"]) %>
+				<a href="/authors/<%= auth["id"] %>"><%= auth["name"] %></a> on <%= thisDoc["created_at"] %></p>
+				<div class="line"></div>
+				<h1>On <%= thisDoc["story_date"] %> these events unfolded:</h1>
+				<p><%= thisDoc["content"][0..300] %></p>
+			</div>
+			<% end %>
+	</div>
+
+				
+	
+</body>
+</html>

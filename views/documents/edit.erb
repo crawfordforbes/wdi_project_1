@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" type="text/css" href="/styles.css">
+	<meta charset="UTF-8">
+	<title>Air Force Deuce</title>
+</head>
+<body>
+	<header>
+		<h1><a href="/">Air Force Deuce Whiteboard</a></h1>
+	</header>
+	<section>
+		<form action="/search" method="GET">
+			<input type="text" name="search" placeholder="Search here!">
+			<button>Search</button>
+		</form>
+		<ul>
+			<li><a href="/documents/new">Create a new page</a></li>
+			<li><a href="/documents/<%= doc.first["id"] %>">Go to the first page</a></li>
+			<li><a href="/documents/<%= doc.last["id"] %>">See the most recent page</a></li>
+			<li><a href="/authors">Authors</a></li>
+			<li><a href="/subscribers">Subscribers</a></li>
+		</ul>
+	</section>
+	<div class="main">
+				<h1>What really happened?</h1>
+				<p>This entry, so far:</p><p><%= thisDoc["content"] %></p>
+		<form action="/documents/<%= thisDoc["id"] %>" method="POST">
+			<input type="hidden" name="_method" value="PUT">
+			<input type="text" name="title" placeholder="<%= thisDoc["title"] %>">
+			<input type="date" name="story_date" placeholder="<%= thisDoc["story_date"] %>">
+			<input id="contentform" type="test" name="content" placeholder="<%= thisDoc["content"] %>">
+			<button>Change it!</button>
+		</form>
+
+	</div>
+
+				
+	
+</body>
+</html>

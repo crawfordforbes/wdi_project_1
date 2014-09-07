@@ -1,0 +1,64 @@
+DB name = afd
+
+
+EVERY PAGE DONE
+<header position=fixed>
+	links to homepage
+
+<section position=fixed>
+	left side of page
+	links to docs - create, first, last, search
+	links to authors list
+	links to subs list
+
+/ >> homepage DONE
+/index.erb
+	snippets of last three entries
+
+/results >> search results
+/results
+	links to returned docs
+	links to returned authors
+	links to returned subscribers
+
+/authors >> author list and sign up page DONE
+a/index.erb
+	form > name, submit assigns ID
+	list of/links to current authors
+
+/authors/:id >> individual author page DONE
+a/author.erb
+	form > edit name
+	links to authored docs and edited docs
+
+/subs >> subs list and sign up page DONE
+s/index.erb
+	form > name, email, phone, submit assigns ID
+	list of/links to current subs
+
+/subs/:id >> individual subs page DONE
+s/subscriber.erb
+	form > edit name, email, phone
+	links to subscribed docs, unsubscribe button
+
+/docs/new
+d/new
+	short description of markdown
+	form > dropdown authors, text field for content, submit button assigns doc id, created_at
+
+/docs/:id >> individual doc page
+d/doc
+	content
+	link to doc edit
+	subscribers dropdown menu, subscribe button
+	links to prev and next doc
+	links to history of doc
+
+/docs/:id/edit
+d/edit
+	short description of markdown
+	form > authors dropdown, text field with content preloaded, submit changes button assigns updated_at, assigns doc id to author edit list
+	delete button
+	when submitted, compare new_content string to old_content string, pull changes and add them to doc edits list with time stamp
+
+
