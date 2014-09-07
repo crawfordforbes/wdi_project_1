@@ -19,17 +19,17 @@ A wiki is an application that allows users to create and modify content collabor
   - collaborative wdi cheatsheets,
   - a wiki for your favorite tv show, movie, book series, etc.
 - **User Stories (MVP)**:
-  - A user can create a wiki document
-  - A user can specify an author when creating a wiki document by either creating a new author or choosing a pre-existing one from a drop-down menu
-  - A user can edit a wiki document (this does not change the original author of the wiki document)
-  - A user can delete a wiki document
-  - A user can view an author's page that lists the pages that they have created or edited
-  - A wiki document should always be written using markdown format
+X - A user can create a wiki document
+X - A user can specify an author when creating a wiki document by either creating a new author or choosing a pre-existing one from a drop-down menu
+X - A user can edit a wiki document (this does not change the original author of the wiki document)
+X - A user can delete a wiki document
+X - A user can view an author's page that lists the pages that they have created or edited
+X - A wiki document should always be written using markdown format
   - A user can search for wikis by title (only exact matches need to be supported)
   - A user can link to other pages in the wiki by using the syntax [[document-title]]
   - A user can subscribe to a document and receive an email or text message when this document is modified (using Twilio/Sendgrid)
     - This text message or email should at least contain the title of the document 
-  - A user can see a history of changes for a document
+X - A user can see a history of changes for a document
 
 ###***Bonus***
 

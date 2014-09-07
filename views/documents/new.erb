@@ -27,7 +27,7 @@
 		<form action="/documents" method="POST">
 			<input type="text" name="title" placeholder="Title">
 			<input type="date" name="story_date">
-			<input id="contentform" type="test" name="content" placeholder="You shot who in the what, now?">
+			<input id="contentform" type="test" name="content" placeholder="Markdown is enabled">
 			<select name="author_id">
 				<% authors.each do |author| %>
 				<option value="<%= author.id %>"><%= author.name %></option>

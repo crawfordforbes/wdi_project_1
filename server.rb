@@ -1,6 +1,7 @@
 require 'pry'
 require 'sinatra'
 require 'sinatra/reloader'
+require 'markdown'
 require_relative './lib/connection'
 require_relative './lib/author'
 require_relative './lib/doc'
@@ -80,31 +81,45 @@ get("/documents/new") do
 end
 
 post("/documents") do 
+	content = params["content"]
+	content = Markdown.new( content ).to_html
 	newDoc = {
 		title: params["title"],
-		content: params["content"],
+		content: content,
 		author_id: params["author_id"],
 		story_date: params["story_date"],
-		sub_ids: "x"
+		sub_ids: "x",
+		edit: " "
 	}
 	Doc.create(newDoc)
 
-	redirect "/documents/:id"
+	redirect "/documents/#{Doc.last['id']}"
 end
 
 get("/documents/edit/:id") do
 	thisDoc = Doc.find_by(id: params[:id])
-	erb(:"documents/edit", locals: {doc: Doc.all(), thisDoc: thisDoc})
+	erb(:"documents/edit", locals: {doc: Doc.all(), thisDoc: thisDoc, authors: Author.all()})
 end
 
 put("/documents/:id") do 
 	updateDoc = Doc.find_by(id: params[:id])
+	content = params["content"]
+	content = Markdown.new(content).to_html
+	oldDocContent = "On " + updateDoc["story_date"].to_s + " the following happened: " + updateDoc["content"]
+	newEdit = updateDoc["edit"] + "</br>" + oldDocContent + " // Edited by " + params["editor"]
 	updateDoc.update(
 		title: params["title"],
-		content: params["content"], 
-		story_date: params["story_date"]
+		content: content, 
+		story_date: params["story_date"],
+		edit: newEdit
 		)
 	redirect "/documents/#{params[:id]}"
+end
+
+delete("/documents/edit/:id") do
+	deleteDoc = Doc.find_by(id: params[:id])
+	deleteDoc.delete
+	redirect "/"
 end
 
 get("/documents/:id") do
