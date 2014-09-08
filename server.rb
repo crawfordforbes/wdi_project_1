@@ -2,10 +2,15 @@ require 'pry'
 require 'sinatra'
 require 'sinatra/reloader'
 require 'markdown'
+require 'twilio-ruby' 
 require_relative './lib/connection'
 require_relative './lib/author'
 require_relative './lib/doc'
 require_relative './lib/subscriber'
+
+#Twilio info
+account_sid = 'ACee710a3746331e7bc23e2606d90c13be' 
+auth_token = '52d372150241bf32add9cabdcc7948eb'
 
 after do 
 	ActiveRecord::Base.connection.close
@@ -102,7 +107,28 @@ get("/documents/edit/:id") do
 end
 
 put("/documents/:id") do 
+
 	updateDoc = Doc.find_by(id: params[:id])
+	subs = []
+	subsNums = []
+	subs = updateDoc["sub_ids"].split(",")
+	if subs.length > 1
+		subs.each do |sub|
+			id = Subscriber.find_by(name: sub)
+			subsNums<<id["phone"]
+		end
+		subsNums.each do |num|
+			account_sid = 'ACee710a3746331e7bc23e2606d90c13be' 
+			auth_token = '52d372150241bf32add9cabdcc7948eb'
+			@client = Twilio::REST::Client.new account_sid, auth_token 
+			@client.account.messages.create({
+				:from => '+19738280420', 
+				:to => "#{num}", 
+				:body => "#{params["title"]} was updated; it now says '#{params["content"]}'", 
+			})
+		end
+	end
+
 	content = params["content"]
 	content = Markdown.new(content).to_html
 	oldDocContent = "On " + updateDoc["story_date"].to_s + " the following happened: " + updateDoc["content"]

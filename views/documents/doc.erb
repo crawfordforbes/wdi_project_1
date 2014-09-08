@@ -40,6 +40,15 @@
 			<a href="/documents/<%= thisDoc.next %>">Next entry</a>
 			<% end %>
 		</p>
+		<% if thisDoc["sub_ids"].length > 1 %>
+			<ul>Current subscribers are:
+				<% thisDoc["sub_ids"].split(",").each do |sub| %>
+				<li><%= sub %></li>
+				<% end %>
+			</ul>
+		<% else %>
+			<p>There are currently no subscribers</p>
+		<% end %>
 		<form action="/subscribe" method="POST">
 			<input type="hidden" name="doc_id" value="<%= thisDoc["id"] %>">
 			<select name="subscriber">
