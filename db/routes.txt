@@ -62,3 +62,17 @@ d/edit
 
 
 
+#####
+
+Create join table
+Look at notify subscribers method - make it work
+
+
+css rules by class as opposed to * {} (renew bullet points)
+
+
+
+
+
+
+
