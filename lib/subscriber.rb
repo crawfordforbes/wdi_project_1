@@ -1,8 +1,8 @@
 require 'active_record'
-require_relative './doc'
+require_relative './docsub'
 
 class Subscriber < ActiveRecord::Base
-		def docs
-		return Doc.where(sub_ids: self["name"])
-	end
+	def docs
+		Docsub.where(sub_id: self.id)
+end
 end

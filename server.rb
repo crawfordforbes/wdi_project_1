@@ -7,10 +7,27 @@ require_relative './lib/connection'
 require_relative './lib/author'
 require_relative './lib/doc'
 require_relative './lib/subscriber'
+require_relative './lib/docsub'
 
 #Twilio info
 account_sid = 'ACee710a3746331e7bc23e2606d90c13be' 
 auth_token = '52d372150241bf32add9cabdcc7948eb'
+@client = Twilio::REST::Client.new account_sid, auth_token 
+
+def notify_subscribers(document)
+	doc_subs = Docsub.where({doc_id: document.id})
+	account_sid = 'ACee710a3746331e7bc23e2606d90c13be' 
+auth_token = '52d372150241bf32add9cabdcc7948eb'
+@client = Twilio::REST::Client.new account_sid, auth_token 
+	doc_subs.each do |doc_sub|
+		subscriber = Subscriber.find_by(id: doc_sub.sub_id)
+		@client.account.messages.create({
+			:from => '+19738280420', 
+			:to => "#{subscriber.phone}", 
+			:body => "#{params["title"]} was updated; go to http://www.afdwiki.com/documents/#{document.id} to see the changes", 
+		})
+	end
+end
 
 after do 
 	ActiveRecord::Base.connection.close
@@ -56,18 +73,16 @@ end
 
 get("/subscribers/:id") do 
 	thisSub = Subscriber.find_by(id: params[:id])
-	erb(:"subscribers/subscriber", locals: {thisSub: thisSub, doc: Doc.all()})
+	docsubs = Docsub.where(sub_id: params[:id])
+	erb(:"subscribers/subscriber", locals: {thisSub: thisSub, docsubs: docsubs, doc: Doc.all()})
 end
 
 post("/subscribe") do 
-	updateDoc = Doc.find_by(id: params["doc_id"])
-	oldData = updateDoc["sub_ids"]
-		if oldData == "x"
-			updateDoc.update(sub_ids: params["subscriber"])
-		else
-			newData = oldData + "," + params["subscriber"]
-			updateDoc.update(sub_ids: newData)
-		end
+	newSub = Subscriber.find_by(id: params["subscriber"])
+	Docsub.create(
+		doc_id: params["doc_id"],
+		sub_id: newSub.id
+		)
 		redirect "/documents/#{params["doc_id"]}"
 end
 
@@ -78,6 +93,12 @@ put("/subscribers/:id") do
 		email: params["email"],
 		phone: params["phone"]
 		)
+	redirect "/subscribers/:id"
+end
+
+delete("/unsubscribe/") do 
+	unsub = Docsub.find_by(doc_id: params["doc_id"], sub_id: params["sub_id"])
+	unsub.delete
 	redirect "/subscribers"
 end
 
@@ -91,7 +112,6 @@ post("/documents") do
 		content: params["content"],
 		author_id: params["author_id"],
 		story_date: params["story_date"],
-		sub_ids: "x",
 		edit: " "
 	}
 	Doc.create(newDoc)
@@ -105,27 +125,9 @@ get("/documents/edit/:id") do
 end
 
 put("/documents/:id") do 
-
 	updateDoc = Doc.find_by(id: params[:id])
-	subs = []
-	subsNums = []
-	subs = updateDoc["sub_ids"].split(",")
-	if subs.length > 1
-		subs.each do |sub|
-			id = Subscriber.find_by(name: sub)
-			subsNums<<id["phone"]
-		end
-		subsNums.each do |num|
-			account_sid = 'ACee710a3746331e7bc23e2606d90c13be' 
-			auth_token = '52d372150241bf32add9cabdcc7948eb'
-			@client = Twilio::REST::Client.new account_sid, auth_token 
-			@client.account.messages.create({
-				:from => '+19738280420', 
-				:to => "#{num}", 
-				:body => "#{params["title"]} was updated; it now says '#{params["content"]}'", 
-			})
-		end
-	end
+
+	notify_subscribers(updateDoc)
 
 	oldDocContent = "On " + updateDoc["story_date"].to_s + " the following happened: " + updateDoc["content"]
 	newEdit = updateDoc["edit"] + "</br>" + oldDocContent + " // Edited by " + params["editor"]
@@ -146,7 +148,8 @@ end
 
 get("/documents/:id") do
 	thisDoc = Doc.find_by(id: params[:id])
-	erb(:"documents/doc", locals: {doc: Doc.all(), thisDoc: thisDoc, subscribers: Subscriber.all()})
+	docsubs = Docsub.where(doc_id: params[:id])
+	erb(:"documents/doc", locals: {doc: Doc.all(), thisDoc: thisDoc, docsubs: docsubs, subscribers: Subscriber.all()})
 end
 
 get("/documents/#{Doc.first['id']}") do

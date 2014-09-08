@@ -71,7 +71,8 @@ Look at notify subscribers method - make it work
 css rules by class as opposed to * {} (renew bullet points)
 
 
-
+partial for reducing forms
+layout.erb for drying up html
 
 
 

@@ -25,19 +25,26 @@
 	<div class="main">
 		<h1><%= thisSub["name"] %>'s subscriptions</h1>
 		<div class="line"></div>
-		<% if thisSub.docs.length < 1 %>
+		<% if docsubs.length < 1 %>
 			<p><%= thisSub["name"] %> hasn't subscribed to anything yet.</p>
 			<% else %>
 			<ul>
-				<% thisSub.docs.each do |document| %>
-				<li><a href="/documents/<%= document["id"] %>"><%= document["title"] %></a></li>
+				<% docsubs.each do |docsub| %>
+				<% document = Doc.find_by(id: docsub.doc_id) %>
+				<li><a href="/documents/<%= document.id %>"><%= document.title %></a></li>
+					<form action="/unsubscribe/" method="POST">
+						<input type="hidden" name="_method" value="DELETE">
+						<input type="hidden" name="sub_id" value="<%= thisSub.id %>">
+						<input type="hidden" name="doc_id" value="<%= document.id %>">
+						<button>Unsubscribe</button>
+					</form>
 				<% end %>	
 			</ul>
 		<% end %>
 		<div class="line"></div>
 		<h1>Edit <%= thisSub["name"] %>'s info</h1>
 		<form action="/subscribers/<%= thisSub["id"] %>" method="POST">
-			<input type="hidden" name="_method" value="PUT" />
+			<input type="hidden" name="_method" value="PUT">
 			<input type="text" name="name" placeholder="<%= thisSub["name"] %>">
 			<input ="text" name="email" placeholder="<%= thisSub["email"] %>">
 			<input type="text" name="phone" placeholder="<%= thisSub["phone"] %>">
