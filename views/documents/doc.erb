@@ -30,7 +30,7 @@
 			<% auth = Author.find_by(id: thisDoc["author_id"]) %><a href="/authors/<%= auth["id"] %>"><%= auth["name"] %></a> on <%= thisDoc["created_at"] %></p>
 			<div class="line"></div>
 			<h1>on <%= thisDoc["story_date"] %> these events unfolded:</h1>
-		<p><%= thisDoc["content"] %></p>
+		<p><%= thisDoc.content_html %></p>
 		</br>
 		<p>
 			<% if thisDoc["id"] > 1 %>

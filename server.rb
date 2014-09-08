@@ -86,11 +86,9 @@ get("/documents/new") do
 end
 
 post("/documents") do 
-	content = params["content"]
-	content = Markdown.new( content ).to_html
 	newDoc = {
 		title: params["title"],
-		content: content,
+		content: params["content"],
 		author_id: params["author_id"],
 		story_date: params["story_date"],
 		sub_ids: "x",
@@ -129,13 +127,11 @@ put("/documents/:id") do
 		end
 	end
 
-	content = params["content"]
-	content = Markdown.new(content).to_html
 	oldDocContent = "On " + updateDoc["story_date"].to_s + " the following happened: " + updateDoc["content"]
 	newEdit = updateDoc["edit"] + "</br>" + oldDocContent + " // Edited by " + params["editor"]
 	updateDoc.update(
 		title: params["title"],
-		content: content, 
+		content: params["content"], 
 		story_date: params["story_date"],
 		edit: newEdit
 		)

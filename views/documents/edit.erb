@@ -29,7 +29,7 @@
 			<input type="hidden" name="_method" value="PUT">
 			<input type="text" name="title" placeholder="<%= thisDoc["title"] %>">
 			<input type="date" name="story_date" placeholder="<%= thisDoc["story_date"] %>">
-			<textarea id="contentform" type="test" name="content" placeholder="Markdown is enabled"></textarea>
+			<textarea id="contentform" type="test" name="content" placeholder="Markdown is enabled"><%= thisDoc.content %></textarea>
 			<select name="editor">
 				<% authors.each do |author| %>
 					<option value="<%= author["name"] %>"><%= author["name"] %></option>
