@@ -10,15 +10,15 @@ require_relative './lib/subscriber'
 require_relative './lib/docsub'
 
 #Twilio info
-account_sid = 'ACee710a3746331e7bc23e2606d90c13be' 
-auth_token = '52d372150241bf32add9cabdcc7948eb'
-@client = Twilio::REST::Client.new account_sid, auth_token 
+# account_sid = 'ACee710a3746331e7bc23e2606d90c13be' 
+# auth_token = '52d372150241bf32add9cabdcc7948eb'
+# @client = Twilio::REST::Client.new account_sid, auth_token 
 
 def notify_subscribers(document)
 	doc_subs = Docsub.where({doc_id: document.id})
 	account_sid = 'ACee710a3746331e7bc23e2606d90c13be' 
-auth_token = '52d372150241bf32add9cabdcc7948eb'
-@client = Twilio::REST::Client.new account_sid, auth_token 
+	auth_token = '52d372150241bf32add9cabdcc7948eb'
+	@client = Twilio::REST::Client.new account_sid, auth_token 
 	doc_subs.each do |doc_sub|
 		subscriber = Subscriber.find_by(id: doc_sub.sub_id)
 		@client.account.messages.create({
@@ -160,8 +160,10 @@ get("/documents/#{Doc.last['id']}") do
 	erb(:"documents/doc", locals: {doc: Doc.all()})
 end	
 
-# get("/search") do 
-# 	results = Doc.select(title: params["search"])
-# 	binding.pry
-# 	erb(:results, locals: {results: results, doc: Doc.all()})
-# end
+get("/search") do 
+	#results = Doc.where(title: params["search"])
+results = Doc.where('title ILIKE ? or content ILIKE ?', "%" + params["search"] + "%", "%" + params["search"] + "%")
+
+#binding.pry
+	erb(:results, locals: {results: results, doc: Doc.all()})
+end

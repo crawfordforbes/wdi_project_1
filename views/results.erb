@@ -23,11 +23,15 @@
 		</ul>
 	</section>
 	<div class="main">
-		<ul>
-			<% results.each do |result| %>
-			<li><a href="/documents/<%= result["id"] %>"><%= result["title"] %></a></li>
-			<% end %>
-		</ul>
+		<% if results.length < 0 %>
+			<p>No results matched your search</p>
+		<% else %>
+			<ul>
+				<% results.each do |result| %>
+				<li><a href="/documents/<%= result["id"] %>"><%= result["title"] %></a></li>
+				<% end %>
+			</ul>
+		<% end %>
 
 	</div>
 
