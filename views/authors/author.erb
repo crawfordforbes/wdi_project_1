@@ -1,49 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<link rel="stylesheet" type="text/css" href="/styles.css">
-	<meta charset="UTF-8">
-	<title>Air Force Deuce</title>
-</head>
-<body>
-	<header>
-		<h1><a href="/">Air Force Deuce Whiteboard</a></h1>
-	</header>
-	<section>
-		<form action="/search" method="GET">
-			<input type="text" name="search" placeholder="Search here!">
-			<button>Search</button>
-		</form>
+<h1><%= thisAuth["name"] %>'s contributions</h1>
+<div class="line"></div>
+	<% if thisAuth.docs.length < 1 %>
+		<p><%= thisAuth["name"] %> hasn't written anything yet. <a href="/documents/new">Click here to contribute.</a>
+		</p>
+	<% else %>
 		<ul>
-			<li><a href="/documents/new">Create a new page</a></li>
-			<li><a href="/documents/<%= doc.first["id"] %>">Go to the first page</a></li>
-			<li><a href="/documents/<%= doc.last["id"] %>">See the most recent page</a></li>
-			<li><a href="/authors">Authors</a></li>
-			<li><a href="/subscribers">Subscribers</a></li>
+			<% thisAuth.docs.each do |document| %>
+				<li><a href="/documents/<%= document["id"] %>"><%= document["title"] %></a>
+				</li>
+			<% end %>	
 		</ul>
-	</section>
-	<div class="main">
-		<h1><%= thisAuth["name"] %>'s contributions</h1>
-		<div class="line"></div>
-		<% if thisAuth.docs.length < 1 %>
-			<p><%= thisAuth["name"] %> hasn't written anything yet. <a href="/documents/new">Click here to contribute.</a></p>
-			<% else %>
-			<ul>
-				<% thisAuth.docs.each do |document| %>
-				<li><a href="/documents/<%= document["id"] %>"><%= document["title"] %></a></li>
-				<% end %>	
-			</ul>
-		<% end %>
-		<div class="line"></div>
-		<h1>Edit <%= thisAuth["name"] %>'s name</h1>
-		<form action="/authors/<%= thisAuth["id"] %>" method="POST">
-			<input type="hidden" name="_method" value="PUT" />
-			<input type="text" name="name" placeholder="<%= thisAuth["name"] %>" required="required">
-			<button>Submit</button>
-		</form>
-	</div>
+	<% end %>
+<div class="line"></div>
+<h1>Edit <%= thisAuth["name"] %>'s name</h1>
+	<form action="/authors/<%= thisAuth["id"] %>" method="POST">
+		<input type="hidden" name="_method" value="PUT" />
+		<input type="text" name="name" placeholder="<%= thisAuth["name"] %>" required="required">
+		<button>Submit</button>
+	</form>
 
-				
-	
-</body>
-</html>

@@ -1,43 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<link rel="stylesheet" type="text/css" href="/styles.css">
-	<meta charset="UTF-8">
-	<title>Air Force Deuce</title>
-</head>
-<body>
-	<header>
-		<h1><a href="/">Air Force Deuce Whiteboard</a></h1>
-	</header>
-	<section>
-		<form action="/search" method="GET">
-			<input type="text" name="search" placeholder="Search here!">
-			<button>Search</button>
-		</form>
-		<ul>
-			<li><a href="/documents/new">Create a new page</a></li>
-			<li><a href="/documents/<%= doc.first["id"] %>">Go to the first page</a></li>
-			<li><a href="/documents/<%= doc.last["id"] %>">See the most recent page</a></li>
-			<li><a href="/authors">Authors</a></li>
-			<li><a href="/subscribers">Subscribers</a></li>
-		</ul>
-	</section>
-	<div class="main">
-		<h1>What happens next?</h1>
-		<form action="/documents" method="POST">
-			<textarea type="text" name="title" placeholder="Title" required="required"></textarea>
-			<input type="date" name="story_date" required="required">
-			<textarea id="contentform" type="test" name="content" placeholder="Markdown is enabled" required="required"></textarea>
+<h1>What happens next?</h1>
+	<form action="/documents" method="POST">
+		<textarea type="text" name="title" placeholder="Title" required="required"></textarea>
+	</br>
+		<input type="date" name="story_date" required="required">
+	</br>
+		<textarea id="contentform" type="test" name="content" placeholder="Markdown is enabled" required="required"></textarea>
+	</br>
 			<select name="author_id">
 				<% authors.each do |author| %>
-				<option value="<%= author.id %>"><%= author.name %></option>
+					<option value="<%= author.id %>"><%= author.name %></option>
 				<% end %>
 			</select>
-			<button>Publish it!</button>
-		</form>
-	</div>
-
-				
-	
-</body>
-</html>
+		<button>Publish it!</button>
+	</form>

@@ -1,41 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<link rel="stylesheet" type="text/css" href="/styles.css">
-	<meta charset="UTF-8">
-	<title>Air Force Deuce</title>
-</head>
-<body>
-	<header>
-		<h1><a href="/">Air Force Deuce Whiteboard</a></h1>
-	</header>
-	<section>
-		<form action="/search" method="GET">
-			<input type="text" name="search" placeholder="Search here!">
-			<button>Search</button>
-		</form>
-		<ul>
-			<li><a href="/documents/new">Create a new page</a></li>
-			<li><a href="/documents/<%= doc.first["id"] %>">Go to the first page</a></li>
-			<li><a href="/documents/<%= doc.last["id"] %>">See the most recent page</a></li>
-			<li><a href="/authors">Authors</a></li>
-			<li><a href="/subscribers">Subscribers</a></li>
-		</ul>
-	</section>
-	<div class="main">
-		<% if results.length < 0 %>
-			<p>No results matched your search</p>
-		<% else %>
-			<ul>
-				<% results.each do |result| %>
-				<li><a href="/documents/<%= result["id"] %>"><%= result["title"] %></a></li>
-				<% end %>
-			</ul>
+<h1>Search results for <%= search %>
+<div class="line"></div>
+<% if results.length < 0 %>
+	<p>No results matched your search</p>
+<% else %>
+	<ul>
+		<% results.each do |result| %>
+			<li><a href="/documents/<%= result["id"] %>"><%= result["title"] %></a>
+			</li>
 		<% end %>
-
-	</div>
-
-				
-	
-</body>
-</html>
+	</ul>
+<% end %>

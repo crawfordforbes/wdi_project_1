@@ -50,10 +50,12 @@ after do
 end
 
 get("/") do 
+	@title = "Home"
 	erb(:index, locals: {doc: Doc.all()})
 end
 
-get("/authors") do 
+get("/authors") do
+	@title = "Authors" 
 	erb(:"authors/index", locals: {doc: Doc.all(), authors: Author.all()})
 end
 
@@ -64,6 +66,7 @@ end
 
 get("/authors/:id") do
 	thisAuth = Author.find_by(id: params[:id])
+		@title = "#{thisAuth["name"]}"
 	erb(:"authors/author", locals: {thisAuth: thisAuth, doc: Doc.all()})
 end
 
@@ -74,6 +77,7 @@ put("/authors/:id") do
 end
 
 get("/subscribers") do
+	@title = "subscribers"
 	erb(:"subscribers/index", locals: {doc: Doc.all(), subscribers: Subscriber.all()})
 end
 
@@ -90,6 +94,7 @@ end
 get("/subscribers/:id") do 
 	thisSub = Subscriber.find_by(id: params[:id])
 	docsubs = Docsub.where(sub_id: params[:id])
+	@title = "#{thisSub["name"]}"
 	erb(:"subscribers/subscriber", locals: {thisSub: thisSub, docsubs: docsubs, doc: Doc.all()})
 end
 
@@ -119,6 +124,7 @@ delete("/unsubscribe/") do
 end
 
 get("/documents/new") do
+	@title = "Write something!"
 	erb(:"documents/new", locals: {doc: Doc.all(), authors: Author.all()})
 end
 
@@ -137,6 +143,7 @@ end
 get("/documents/edit/:id") do
 	thisDoc = Doc.find_by(id: params[:id])
 	edits = Edit.where(doc_id: params[:id])
+	@title = "Change history"
 	erb(:"documents/edit", locals: {doc: Doc.all(), thisDoc: thisDoc, edits: edits, authors: Author.all()})
 end
 
@@ -166,18 +173,23 @@ end
 get("/documents/:id") do
 	thisDoc = Doc.find_by(id: params[:id])
 	docsubs = Docsub.where(doc_id: params[:id])
+	@title = "#{thisDoc["title"]}"
 	erb(:"documents/doc", locals: {doc: Doc.all(), thisDoc: thisDoc, docsubs: docsubs, subscribers: Subscriber.all()})
 end
 
 get("/documents/#{Doc.first['id']}") do
+	@title = "#{Doc.first["id"]}"
 	erb(:"documents/doc", locals: {doc: Doc.all()})
 end
 
 get("/documents/#{Doc.last['id']}") do 
+	@title = "#{Doc.last["id"]}"
 	erb(:"documents/doc", locals: {doc: Doc.all()})
 end	
 
 get("/search") do 
+	search = params["search"]
 	results = Doc.where('title ILIKE ? or content ILIKE ?', "%" + params["search"] + "%", "%" + params["search"] + "%")
-	erb(:results, locals: {results: results, doc: Doc.all()})
+	@title = "Search Results"
+	erb(:results, locals: {results: results, search: search, doc: Doc.all()})
 end

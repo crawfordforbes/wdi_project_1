@@ -1,48 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<link rel="stylesheet" type="text/css" href="/styles.css">
-	<meta charset="UTF-8">
-	<title>Air Force Deuce</title>
-</head>
-<body>
-	<header>
-		<h1><a href="/">Air Force Deuce Whiteboard</a></h1>
-	</header>
-	<section>
-		<form action="/search" method="GET">
-			<input type="text" name="search" placeholder="Search here!">
-			<button>Search</button>
-		</form>
-		<ul>
-			<li><a href="/documents/new">Create a new page</a></li>
-			<li><a href="/documents/<%= doc.first["id"] %>">Go to the first page</a></li>
-			<li><a href="/documents/<%= doc.last["id"] %>">See the most recent page</a></li>
-			<li><a href="/authors">Authors</a></li>
-			<li><a href="/subscribers">Subscribers</a></li>
-		</ul>
-	</section>
-	<div class="main">
-		<h1>Become a subscriber here</h1>
-		<div class="line"></div>
-		<form action="/subscribers" method="POST">
-			<input type="text" name="name" placeholder="Name, please" required="required">
-			<input type="text" name="email" placeholder="email" required="required">
-			<input type="text" name="phone"
-			placeholder="phone number">
-			<button>Sign up!</button>
-		</form>
+<h1>Become a subscriber here</h1>
 	<div class="line"></div>
-		<h1>See who else gets updates</h1>
-		<ul>
+	<form action="/subscribers" method="POST">
+		<input type="text" name="name" placeholder="Name, please" required="required">
+		<input type="text" name="email" placeholder="email" required="required">
+		<input type="text" name="phone"
+			placeholder="phone number">
+		<button>Sign up!</button>
+	</form>
+<div class="line"></div>
+<h1>See who else gets updates</h1>
+	<ul>
 		<% subscribers.each do |subscriber| %>
 			<li><a href="/subscribers/<%= subscriber["id"] %>"><%= subscriber["name"] %></a></li>
-			<% end %>
-		</ul>
-
-	</div>
-
-				
-	
-</body>
-</html>
+		<% end %>
+	</ul>

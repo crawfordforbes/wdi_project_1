@@ -1,7 +1,16 @@
 * {
 	margin: 0;
 	padding: 0;
-	list-style-type: none;
+
+}
+* a:visited {
+	text-decoration: none;
+}
+
+
+
+body {
+	background-color: #C2F3D1;
 }
 
 header {
@@ -11,9 +20,11 @@ header {
 	padding: 10px;
 	height: 80px;
 	border-bottom: darkgrey solid 2px;
+	background-color: #91E1A9;
 }
 
 header h1 {
+	font-family: 'Comfortaa', cursive;
 	margin: 20px;
 }
 
@@ -29,6 +40,7 @@ section {
 	height: 100%;
 	border-right: darkgrey solid 2px;
 	padding: 50px 15px 15px 15px;
+	background-color: #91E1A9;
 }
 
 section form {
@@ -51,6 +63,7 @@ section ul li {
 .main {
 	margin-left: 235px;
 	margin-top: 140px;
+
 }
 
 .main h1 {
@@ -78,4 +91,27 @@ section ul li {
 
 #contentform {
 	width: 500px;
+}
+
+#snippets {
+	border: darkgrey 2px solid; 
+	border-radius: 5px; 
+	margin: 0 30px 15px 0; 
+	padding: 15px;
+	background-color: #BFE3ED;
+}
+
+textarea {
+	margin: 5px;
+	background-color: #E7FBC9;
+}
+
+input {
+	margin: 5px;
+	background-color: #E7FBC9;
+
+}
+
+button {
+	padding: 3px;
 }

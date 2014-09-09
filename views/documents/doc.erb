@@ -1,68 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<link rel="stylesheet" type="text/css" href="/styles.css">
-	<meta charset="UTF-8">
-	<title>Air Force Deuce</title>
-</head>
-<body>
-	<header>
-		<h1><a href="/">Air Force Deuce Whiteboard</a></h1>
-	</header>
-	<section>
-		<form action="/search" method="GET">
-			<input type="text" name="search" placeholder="Search here!">
-			<button>Search</button>
-		</form>
-		<ul>
-			<li><a href="/documents/new">Create a new page</a></li>
-			<li><a href="/documents/<%= doc.first.id %>">Go to the first page</a></li>
-			<li><a href="/documents/<%= doc.last.id %>">See the most recent page</a></li>
-			<li><a href="/authors">Authors</a></li>
-			<li><a href="/subscribers">Subscribers</a></li>
-		</ul>
-	</section>
-	<div class="main">
-		<h1><%= thisDoc.title %></h1>
-		<p id="edit"><a href="/documents/edit/<%= thisDoc.id %>">edit this page</a></p>
-		<div class="line"></div>
-		<p>created by 
-			<% auth = Author.find_by(id: thisDoc.author_id) %><a href="/authors/<%= auth.id %>"><%= auth.name %></a> on <%= thisDoc.created_at %></p>
-			<div class="line"></div>
-			<h1>on <%= thisDoc.story_date %> these events unfolded:</h1>
-	
-		<p><%= thisDoc.content_html %></p>
-		</br>
-		<p>
-			<% if thisDoc.id > 1 %>
-				<a href="/documents/<%= thisDoc.previous %>">Previous entry</a>
-			<% end %> 
-			<% if thisDoc.id < doc.last.id %>
+<h1><%= thisDoc.title %></h1>
+	<p id="edit"><a href="/documents/edit/<%= thisDoc.id %>">edit this page</a>
+	</p>
+<div class="line"></div>
+	<p>created by 
+		<% auth = Author.find_by(id: thisDoc.author_id) %>
+			<a href="/authors/<%= auth.id %>"><%= auth.name %>
+			</a> on <%= thisDoc.created_at %>
+	</p>
+<div class="line"></div>
+<h1>on <%= thisDoc.story_date %> these events unfolded:</h1>
+	<p><%= thisDoc.content_html %></p>
+</br>
+	<p>
+		<% if thisDoc.id > 1 %>
+			<a href="/documents/<%= thisDoc.previous %>">Previous entry</a>
+		<% end %> 
+		<% if thisDoc.id < doc.last.id %>
 			<a href="/documents/<%= thisDoc.next %>">Next entry</a>
-			<% end %>
-		</p>
-		<% if docsubs.length > 0 %>
-			<ul>Current subscribers are:
-				<% docsubs.each do |docsub| %>
-				<% thisSub = Subscriber.find_by(id: docsub.sub_id) %>
-				<li><a href="/subscribers/<%= thisSub.id %>"><%= thisSub.name %></a></li>
-				<% end %>
-			</ul>
-		<% else %>
-			<p>There are currently no subscribers</p>
 		<% end %>
-		<form action="/subscribe" method="POST">
-			<input type="hidden" name="doc_id" value="<%= thisDoc.id %>">
-			<select name="subscriber">
-				<% subscribers.each do |subscriber| %>
+	</p>
+	<% if docsubs.length > 0 %>
+		<ul>Current subscribers are:
+			<% docsubs.each do |docsub| %>
+				<% thisSub = Subscriber.find_by(id: docsub.sub_id) %>
+				<li><a href="/subscribers/<%= thisSub.id %>"><%= thisSub.name %></a>
+				</li>
+			<% end %>
+		</ul>
+	<% else %>
+		<p>There are currently no subscribers</p>
+	<% end %>
+<form action="/subscribe" method="POST">
+	<input type="hidden" name="doc_id" value="<%= thisDoc.id %>">
+		<select name="subscriber">
+			<% subscribers.each do |subscriber| %>
 				<option value="<%= subscriber.id %>"><%= subscriber.name %></option>
-					<% end %>
-			</select>
-			<button>Subscribe!</button>
-		</form>
-	</div>
-
-				
-	
-</body>
-</html>
+			<% end %>
+		</select>
+	<button>Subscribe!</button>
+</form>

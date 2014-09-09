@@ -1,45 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<link rel="stylesheet" type="text/css" href="/styles.css">
-	<meta charset="UTF-8">
-	<title>Air Force Deuce</title>
-</head>
-<body>
-	<header>
-		<h1><a href="/">Air Force Deuce Whiteboard</a></h1>
-	</header>
-	<section>
-		<form action="/search" method="GET">
-			<input type="text" name="search" placeholder="Search here!">
-			<button>Search</button>
-		</form>
-		<ul>
-			<li><a href="/documents/new">Create a new page</a></li>
-			<li><a href="/documents/<%= doc.first["id"] %>">Go to the first page</a></li>
-			<li><a href="/documents/<%= doc.last["id"] %>">See the most recent page</a></li>
-			<li><a href="/authors">Authors</a></li>
-			<li><a href="/subscribers">Subscribers</a></li>
-		</ul>
-	</section>
-	<div class="main">
-		<h1>Become an author here</h1>
-		<div class="line"></div>
-		<form action="/authors" method="POST">
-			<input type="text" name="name" placeholder="Name, please">
-			<button>Start writing!</button>
-		</form>
-	<div class="line"></div>
-		<h1>See who else is writing</h1>
-		<ul>
+<h1>Become an author here</h1>
+<div class="line"></div>
+	<form action="/authors" method="POST">
+		<input type="text" name="name" placeholder="Name, please">
+		<button>Start writing!</button>
+	</form>
+<div class="line"></div>
+<h1>See who else is writing</h1>
+	<ul>
 		<% authors.each do |author| %>
-			<li><a href="/authors/<%= author["id"] %>"><%= author["name"] %></a></li>
-			<% end %>
-		</ul>
-
-	</div>
-
-				
-	
-</body>
-</html>
+			<li><a href="/authors/<%= author["id"] %>"><%= author["name"] %></a>
+			</li>
+		<% end %>
+	</ul>
