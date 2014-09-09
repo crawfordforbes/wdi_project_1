@@ -25,10 +25,10 @@ X - A user can edit a wiki document (this does not change the original author of
 X - A user can delete a wiki document
 X - A user can view an author's page that lists the pages that they have created or edited
 X - A wiki document should always be written using markdown format
-  - A user can search for wikis by title (only exact matches need to be supported)
+X - A user can search for wikis by title (only exact matches need to be supported)
   - A user can link to other pages in the wiki by using the syntax [[document-title]]
-  - A user can subscribe to a document and receive an email or text message when this document is modified (using Twilio/Sendgrid)
-    - This text message or email should at least contain the title of the document 
+X - A user can subscribe to a document and receive an email or text message when this document is modified (using Twilio/Sendgrid)
+X - This text message or email should at least contain the title of the document 
 X - A user can see a history of changes for a document
 
 ###***Bonus***
@@ -38,7 +38,7 @@ X - A user can see a history of changes for a document
 - **Further User Stories**:
   - A user can add comments to a wiki page on a "discuss" page used to discuss changes to a wiki document
   - A user can see on the front page all recent activity done to the wiki (creations/edits/deletions)
-  - A user can perform a full text search, meaning that searching for "unicorn" will not only bring up the document with the title "unicorn" but also any wiki document that has the word unicorn in it
+X - A user can perform a full text search, meaning that searching for "unicorn" will not only bring up the document with the title "unicorn" but also any wiki document that has the word unicorn in it
   - A user can revert a wiki document to a previous revision
   - **Super Bonus** A user can see all wiki documents that reference a given document using the syntax [[document-title]]
   - **Super Bonus** Allow the user to be able to see a visual "diff" between two different versions of a document in its edit history (this would be very hard to do without using an external library of some sort)

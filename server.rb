@@ -191,5 +191,5 @@ get("/search") do
 	search = params["search"]
 	results = Doc.where('title ILIKE ? or content ILIKE ?', "%" + params["search"] + "%", "%" + params["search"] + "%")
 	@title = "Search Results"
-	erb(:results, locals: {results: results, search: search, doc: Doc.all()})
+	erb(:results, locals: {results: results, search: search, thisDoc: search, doc: Doc.all()})
 end

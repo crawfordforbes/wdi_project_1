@@ -7,7 +7,13 @@
 	text-decoration: none;
 }
 
+h1 {
+	font-family: 'Crimson Text', serif;
+}
 
+p {
+	font-family: 'Droid Sans', sans-serif;
+}
 
 body {
 	background-color: #C2F3D1;
@@ -24,7 +30,7 @@ header {
 }
 
 header h1 {
-	font-family: 'Comfortaa', cursive;
+
 	margin: 20px;
 }
 
@@ -62,7 +68,7 @@ section ul li {
 
 .main {
 	margin-left: 235px;
-	margin-top: 140px;
+	margin-top: 135px;
 
 }
 
@@ -96,7 +102,7 @@ section ul li {
 #snippets {
 	border: darkgrey 2px solid; 
 	border-radius: 5px; 
-	margin: 0 30px 15px 0; 
+	margin: 10px 30px 15px 0; 
 	padding: 15px;
 	background-color: #BFE3ED;
 }
@@ -109,9 +115,11 @@ textarea {
 input {
 	margin: 5px;
 	background-color: #E7FBC9;
-
 }
 
+select {
+	margin-left: 5px;
+}
 button {
 	padding: 3px;
 }
