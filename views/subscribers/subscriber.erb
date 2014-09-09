@@ -45,9 +45,9 @@
 		<h1>Edit <%= thisSub["name"] %>'s info</h1>
 		<form action="/subscribers/<%= thisSub["id"] %>" method="POST">
 			<input type="hidden" name="_method" value="PUT">
-			<input type="text" name="name" placeholder="<%= thisSub["name"] %>">
-			<input ="text" name="email" placeholder="<%= thisSub["email"] %>">
-			<input type="text" name="phone" placeholder="<%= thisSub["phone"] %>">
+			<input type="text" name="name" placeholder="<%= thisSub["name"] %>" required="required">
+			<input ="text" name="email" placeholder="<%= thisSub["email"] %>" required="required">
+			<input type="text" name="phone" placeholder="<%= thisSub["phone"] %>" required="required">
 			<button>Submit</button>
 		</form>
 	</div>

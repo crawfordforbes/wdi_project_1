@@ -14,7 +14,6 @@ title varchar(255),
 content text,
 created_at timestamp,
 updated_at timestamp,
-edit text,
 author_id integer references authors(id),
 story_date date
 );
@@ -30,4 +29,10 @@ CREATE TABLE docsubs (
 id serial primary key,
 doc_id integer references docs(id),
 sub_id integer references subscribers(id)
+);
+
+CREATE TABLE edits (
+id serial primary key,
+doc_id integer references docs(id),
+old_entry text
 );

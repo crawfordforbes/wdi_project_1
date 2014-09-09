@@ -33,7 +33,7 @@
 				<a href="/authors/<%= auth["id"] %>"><%= auth["name"] %></a> on <%= thisDoc["created_at"] %></p>
 				<div class="line"></div>
 				<h1>On <%= thisDoc["story_date"] %> these events unfolded:</h1>
-				<p><%= thisDoc["content"] %></p>
+				<p><%= thisDoc.content_html %></p>
 			</div>
 			<% end %>
 	</div>

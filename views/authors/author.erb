@@ -38,7 +38,7 @@
 		<h1>Edit <%= thisAuth["name"] %>'s name</h1>
 		<form action="/authors/<%= thisAuth["id"] %>" method="POST">
 			<input type="hidden" name="_method" value="PUT" />
-			<input type="text" name="name" placeholder="<%= thisAuth["name"] %>">
+			<input type="text" name="name" placeholder="<%= thisAuth["name"] %>" required="required">
 			<button>Submit</button>
 		</form>
 	</div>

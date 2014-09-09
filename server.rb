@@ -3,11 +3,14 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'markdown'
 require 'twilio-ruby' 
+require 'mail'
+require 'rest-client'
 require_relative './lib/connection'
 require_relative './lib/author'
 require_relative './lib/doc'
 require_relative './lib/subscriber'
 require_relative './lib/docsub'
+require_relative './lib/edit'
 
 #Twilio info
 # account_sid = 'ACee710a3746331e7bc23e2606d90c13be' 
@@ -26,6 +29,19 @@ def notify_subscribers(document)
 			:to => "#{subscriber.phone}", 
 			:body => "#{params["title"]} was updated; go to http://www.afdwiki.com/documents/#{document.id} to see the changes", 
 		})
+	end
+end
+
+def send_simple_message(document)
+	doc_subs = Docsub.where({doc_id: document.id})
+	doc_subs.each do |doc_sub|
+		subscriber = Subscriber.find_by(id: doc_sub.sub_id)
+  RestClient.post "https://api:key-9378e513a0192d8bbb6c1a80ffb53dbf"\
+  "@api.mailgun.net/v2/sandbox2dc88acc91fa427c944816f5a838936d.mailgun.org/messages",
+  :from => "Mailgun Sandbox <postmaster@sandbox2dc88acc91fa427c944816f5a838936d.mailgun.org>",
+  :to => "#{subscriber.email}",
+  :subject => "AFD UPDATE",
+  :text => "#{params["title"]} was updated; go to http://www.afdwiki.com/documents/#{document.id} to see the changes"
 	end
 end
 
@@ -112,7 +128,6 @@ post("/documents") do
 		content: params["content"],
 		author_id: params["author_id"],
 		story_date: params["story_date"],
-		edit: " "
 	}
 	Doc.create(newDoc)
 
@@ -121,22 +136,24 @@ end
 
 get("/documents/edit/:id") do
 	thisDoc = Doc.find_by(id: params[:id])
-	erb(:"documents/edit", locals: {doc: Doc.all(), thisDoc: thisDoc, authors: Author.all()})
+	edits = Edit.where(doc_id: params[:id])
+	erb(:"documents/edit", locals: {doc: Doc.all(), thisDoc: thisDoc, edits: edits, authors: Author.all()})
 end
 
 put("/documents/:id") do 
 	updateDoc = Doc.find_by(id: params[:id])
 
 	notify_subscribers(updateDoc)
+	send_simple_message(updateDoc)
 
-	oldDocContent = "On " + updateDoc["story_date"].to_s + " the following happened: " + updateDoc["content"]
-	newEdit = updateDoc["edit"] + "</br>" + oldDocContent + " // Edited by " + params["editor"]
+	newEdit = params["title"] + " was edited by " + params["editor"] + " // On " + params["story_date"].to_s + " the following happened: " + params["content"]
+	Edit.create(doc_id: params[:id], old_entry: newEdit)
 	updateDoc.update(
 		title: params["title"],
 		content: params["content"], 
 		story_date: params["story_date"],
-		edit: newEdit
 		)
+
 	redirect "/documents/#{params[:id]}"
 end
 
@@ -161,9 +178,6 @@ get("/documents/#{Doc.last['id']}") do
 end	
 
 get("/search") do 
-	#results = Doc.where(title: params["search"])
-results = Doc.where('title ILIKE ? or content ILIKE ?', "%" + params["search"] + "%", "%" + params["search"] + "%")
-
-#binding.pry
+	results = Doc.where('title ILIKE ? or content ILIKE ?', "%" + params["search"] + "%", "%" + params["search"] + "%")
 	erb(:results, locals: {results: results, doc: Doc.all()})
 end
